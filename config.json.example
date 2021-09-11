@@ -1,0 +1,54 @@
+{
+    "bot": {
+        "token": "Nice Token!",
+        "refreshrate": 30,
+        "prefix": "mon!",
+        "guild_id": [
+            123456789098765432
+        ],
+        "permitted_rank": [
+            123456789098765432
+        ]
+    },
+    "panel": {
+        "panel-url": "https://pterodactylpanel.example.com/",
+        "client-api-token": "Pterodactyl's User Token",
+        "app-api-token": "Pterodactyl's API Token"
+    },
+    "server": {
+        "ip": "play.example.com",
+        "port": 25565
+    },
+    "pack": {
+        "url": "https://minecraft.net/",
+        "icon": "https://cdn.freebiesupply.com/logos/large/2x/minecraft-1-logo-png-transparent.png",
+        "name": "Example Vanilla Server",
+        "version": "1.16.5"
+    },
+    "messages": {
+        "activities": {
+            "connecting": "Connecting to services...",
+            "invalid": "No response!",
+            "idle": "no one is playing.",
+            "online": "with {online}/{max} players"
+        },
+        "emojis": {
+            "home": {
+                "id": 885238099104378951,
+                "name": "homebtn"
+            },
+            "end": {
+                "id": 885249126307082292,
+                "name": "endbtn"
+            },
+            "arrow-left": {
+                "id": 885249268179435531,
+                "name": "arrowleftbold"
+            },
+            "arrow-right": {
+                "id": 885249200760164393,
+                "name": "arrowrightbold"
+            }
+        }
+    }
+}

@@ -1,0 +1,13 @@
+RENAME CONFIG.JSON.EXAMPLE TO CONFIG.JSON!!!!!
+
+For config.json:
+
+If you want make DNS call, set "port" in "server" to 0, rather valid port. It will then try to pickup SRV record of provided IP/domain
+
+Bot **needs** to utilize Pterodactyl panel as of today.
+
+Prefix does basically nothing.
+
+Refreshrate changes how often (in seconds) bot will update it's presence.
+
+Don't change anything in messages, may result in break.
