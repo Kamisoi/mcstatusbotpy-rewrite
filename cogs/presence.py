@@ -29,7 +29,9 @@ class PresenceUpdater(commands.Cog):
     @tasks.loop(seconds=utilities.config.bot_info["refreshrate"])
     async def update_presence(self):
         try:
-            _srv = MinecraftProvider(self.config.server["ip"], self.config.server["port"])
+            _srv = MinecraftProvider(
+                self.config.server["ip"], self.config.server["port"]
+            )
             _data = _srv.player_count()
             if _data["online"] == 0:
                 await self.bot.change_presence(
