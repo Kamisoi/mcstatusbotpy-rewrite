@@ -118,3 +118,5 @@ dmypy.json
 .vscode/
 *.yml
 config.json
+test.*
+test.py
