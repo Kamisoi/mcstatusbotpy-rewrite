@@ -17,18 +17,11 @@ class MinecraftProvider:
         _srv = self._server.status()
         return {"online": _srv.players.online, "max": _srv.players.max}
 
-    def player_list(self):
-        if self.player_count().get("online") == 0:
-            return "No one is online"
-        else:
-            return "{}".format(", ".join(self._server.query().players.names))
-
     def player_list_ext(self):
-        if self.player_count().get("online") != 0:
+        if self.player_count().get("online"):
             return self._server.status().raw.get("players").get("sample")
         else:
             return [{"name": "No one is online", "id": "\u202D"}]
 
-    def data_load(self):
-        for i in range(len(self.player_list_ext())):
-            print(self.player_list_ext()[i].get("id"))
+    def player_list(self):
+        return ", ".join([_player.get("name") for _player in self.player_list_ext()])

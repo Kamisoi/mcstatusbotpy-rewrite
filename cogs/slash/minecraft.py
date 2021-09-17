@@ -3,8 +3,6 @@ from discord.ext import commands
 from discord_slash import cog_ext, SlashContext
 from dinteractions_Paginator import Paginator
 from discord_slash.model import ButtonStyle
-
-# from discord_slash.utils.manage_components import create_button, create_actionrow
 import utilities.config as _config
 from utilities.paneldata import PanelConnector
 from utilities.gamedata import MinecraftProvider
@@ -45,7 +43,7 @@ class MinecraftCommands(commands.Cog):
                     url=f"{_config.pack_info['url']}",
                     color=0xF16436,
                 )
-                _list = Embed(title="Players online: ", color=Colour.green())
+                _playerlist = Embed(title="Players online: ", color=Colour.green())
                 _usage = Embed(title="Server resource usage", color=0x33404D)
 
                 _info.set_thumbnail(url=_config.pack_info["icon"])
@@ -56,7 +54,7 @@ class MinecraftCommands(commands.Cog):
                     name="Link to modpack: ", value=f"{_config.pack_info['url']}"
                 )
 
-                _list.set_thumbnail(
+                _playerlist.set_thumbnail(
                     url="https://ik.imagekit.io/zg1ibtq0dje/steve-list_p_2g1zpAP?updatedAt=1631206073416"
                 )
 
@@ -77,41 +75,20 @@ class MinecraftCommands(commands.Cog):
                 if set(_config.bot_info["permitted_ranks"]) & set(
                     [_i.id for _i in ctx.author.roles]
                 ):
-                    for _it in range(len(_plist_admin)):
-                        _list.add_field(
+                    for _player_dict in _plist_admin:
+                        _playerlist.add_field(
                             inline=True,
-                            name=f"{_plist_admin[_it]['name']}",
-                            value=f"UUID: {_plist_admin[_it]['id']}",
+                            name=f"{_player_dict['name']}",
+                            value=f"```{_player_dict['id']}```",
                         )
 
-                    # _usage_buttons = [
-                    #     create_button(
-                    #         style=ButtonStyle.green,
-                    #         label="Start"
-                    #     ),
-                    #     create_button(
-                    #         style=ButtonStyle.gray,
-                    #         label="Restart"
-                    #     ),
-                    #     create_button(
-                    #         style=ButtonStyle.red,
-                    #         label="Stop"
-                    #     )
-                    # ]
-                    # _usage_action_row = create_actionrow(*_usage_buttons)
-                    # async def _usage_row(self, button_ctx):
-                    #     pass
-                    # _usage.add_field(inline=False, name="Take actions: ", value=_usage_action_row)
-
                 else:
-                    # _usage_buttons = []
-                    # _usage_action_row = create_actionrow(*_usage_buttons)
-                    # async def _usage_row(self, button_ctx):
-                    #     pass
-                    _list.add_field(inline=True, name="\u202D", value=f"{_plist_user}")
+                    _playerlist.add_field(
+                        inline=True, name="\u202D", value=f"{_plist_user}"
+                    )
 
                 # Put embeds into list for paginator
-                pages = [_info, _list, _usage]
+                pages = [_info, _playerlist, _usage]
 
                 # Define Paginator and run it
                 await Paginator(
@@ -128,7 +105,6 @@ class MinecraftCommands(commands.Cog):
                     nextEmoji=_config.emojis["arrow-right"],
                     prevStyle=ButtonStyle.green,
                     nextStyle=ButtonStyle.green,
-                    # customActionRow=[_usage_action_row, _usage_row],
                     authorOnly=True,
                     useNotYours=True,
                 ).run()

@@ -10,7 +10,6 @@ class Config:
         try:
             with open(self.path, "r") as _config_file:
                 _data = json.load(_config_file)
-                _config_file.close()
                 return _data
         except Exception as _error:
             print(traceback_maker(_error, False))

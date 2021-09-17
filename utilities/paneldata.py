@@ -28,7 +28,7 @@ class PanelConnector:
         _application = PterodactylClient(url=self._url, api_key=self._token_app)
         _server = _application.servers.get_server_info(external_id=self._external_id)
 
-        return _server["identifier"]
+        return _server.get("identifier")
 
     def resource_usage(self):
         """resource_usage - Fetch server's usage from panel, style it and return readable.
@@ -37,12 +37,14 @@ class PanelConnector:
             [dict]: Returns dict of used resources by instance.
         """
         _client = PterodactylClient(url=self._url, api_key=self._token_client)
-        _usage = _client.client.get_server_utilization(self._external_to_internal_id())
+        _usage = _client.client.get_server_utilization(
+            self._external_to_internal_id()
+        ).get("resources")
         _bytes_to_gb = 1073741824
-        _ram_usage = f'{round(_usage["resources"]["memory_bytes"] / _bytes_to_gb, 2)}GB'
-        _cpu_usage = f'{round(_usage["resources"]["cpu_absolute"], 1)}%'
-        _disk_usage = f'{round(_usage["resources"]["disk_bytes"] / _bytes_to_gb, 2)}GB'
+        _ram_usage = f'{round(_usage["memory_bytes"] / _bytes_to_gb, 2)}GB'
+        _cpu_usage = f'{round(_usage["cpu_absolute"], 1)}%'
+        _disk_usage = f'{round(_usage["disk_bytes"] / _bytes_to_gb, 2)}GB'
 
-        _list = {"cpu": _cpu_usage, "ram": _ram_usage, "disk": _disk_usage}
+        _usage_dict = {"cpu": _cpu_usage, "ram": _ram_usage, "disk": _disk_usage}
 
-        return _list
+        return _usage_dict
