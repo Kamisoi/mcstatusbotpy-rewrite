@@ -17,6 +17,7 @@ try:
     bot.load_extension("cogs.slash.admin")
     bot.load_extension("cogs.slash.minecraft")
 
+    print("Running...")
     bot.run(token)
 except Exception as _error:
     print(traceback_maker(_error, False))
