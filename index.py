@@ -6,7 +6,7 @@ from utilities.traceback_own import traceback_maker
 
 try:
     bot = commands.Bot(
-        command_prefix=bot_info["prefix"],
+        command_prefix="/",
         help_command=None,
         intents=discord.Intents.default(),
     )

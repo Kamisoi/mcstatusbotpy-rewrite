@@ -2,7 +2,6 @@
     "bot": {
         "token": "Nice Token!",
         "refreshrate": 30,
-        "prefix": "mon!",
         "guild_id": [
             123456789098765432
         ],
@@ -17,7 +16,9 @@
     },
     "server": {
         "ip": "play.example.com",
-        "port": 25565
+        "port": 25565,
+        "rcon_password": "pAsSwOrD",
+        "rcon_port": 25570
     },
     "pack": {
         "url": "https://minecraft.net/",
