@@ -1,14 +1,19 @@
 import discord
 from discord.ext import commands, tasks
-import utilities.config
+from utilities.config import config
 from utilities.gamedata import MinecraftProvider
 from utilities.traceback_own import traceback_maker
+
+try:
+    _cfg = config.read_config()
+    _server = MinecraftProvider(name=_cfg["server"]["ip"], port=_cfg["server"]["port"])
+except Exception as _error:
+    print(traceback_maker(_error, False))
 
 
 class PresenceUpdater(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.config = utilities.config
         self.update_presence.start()
 
     def cog_unload(self):
@@ -20,32 +25,29 @@ class PresenceUpdater(commands.Cog):
                 status=discord.Status.dnd,
                 activity=discord.Activity(
                     type=discord.ActivityType.listening,
-                    name=self.config.messages["connecting"],
+                    name=_cfg["messages"]["activities"]["connecting"],
                 ),
             )
         except Exception as _error:
             print(traceback_maker(_error, False))
 
-    @tasks.loop(seconds=utilities.config.bot_info["refreshrate"])
+    @tasks.loop(seconds=30)
     async def update_presence(self):
         try:
-            _srv = MinecraftProvider(
-                self.config.server["ip"], self.config.server["port"]
-            )
-            _data = _srv.player_count()
+            _data = _server.player_count()
             if _data["online"] == 0:
                 await self.bot.change_presence(
                     status=discord.Status.idle,
                     activity=discord.Activity(
                         type=discord.ActivityType.watching,
-                        name=self.config.messages["idle"],
+                        name=_cfg["messages"]["activities"]["idle"],
                     ),
                 )
             elif _data["online"] != 0:
                 await self.bot.change_presence(
                     status=discord.Status.online,
                     activity=discord.Game(
-                        name=self.config.messages["online"].format(**_data)
+                        name=_cfg["messages"]["activities"]["online"].format(**_data)
                     ),
                 )
         except Exception as _error:
@@ -54,7 +56,7 @@ class PresenceUpdater(commands.Cog):
                     status=discord.Status.dnd,
                     activity=discord.Activity(
                         type=discord.ActivityType.listening,
-                        name=self.config.messages["invalid"],
+                        name=_cfg["messages"]["activities"]["invalid"],
                     ),
                 )
                 print(traceback_maker(_error, False))
@@ -69,7 +71,7 @@ class PresenceUpdater(commands.Cog):
                 status=discord.Status.dnd,
                 activity=discord.Activity(
                     type=discord.ActivityType.listening,
-                    name=self.config.messages["connecting"],
+                    name=_cfg["messages"]["activities"]["connecting"],
                 ),
             )
         except Exception as _error:

@@ -1,30 +1,28 @@
 {
     "bot": {
-        "token": "Nice Token!",
-        "refreshrate": 30,
-        "guild_id": [
-            123456789098765432
-        ],
-        "permitted_rank": [
-            123456789098765432
+        "token": "SECRET BOT TOKEN",
+        "command_name": "vanilla",
+        "guild_id": 518331223047667742,
+        "permitted_ranks": [
+            886010716602105856
         ]
     },
     "panel": {
-        "panel-url": "https://pterodactylpanel.example.com/",
-        "client-api-token": "Pterodactyl's User Token",
-        "app-api-token": "Pterodactyl's API Token"
+        "panel-url": "https://pterodactyl.example.com/",
+        "client-api-token": "secret user that can see servers client token",
+        "app-api-token": "secret admin application token"
     },
     "server": {
-        "ip": "play.example.com",
-        "port": 25565,
-        "rcon_password": "pAsSwOrD",
+        "ip": "vanilla.example.com or 123.456.789 - if numeric ip, put port below",
+        "port": 0,
+        "rcon_password": "sEcReTpaSsWd",
         "rcon_port": 25570
     },
     "pack": {
         "url": "https://minecraft.net/",
-        "icon": "https://cdn.freebiesupply.com/logos/large/2x/minecraft-1-logo-png-transparent.png",
-        "name": "Example Vanilla Server",
-        "version": "1.16.5"
+        "icon": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimg00.deviantart.net%2F9cc9%2Fi%2F2011%2F008%2F6%2F1%2Fminecraft_hd_icon___mac___pc_by_hunterkharon-d36qrs5.png&f=1&nofb=1",
+        "name": "Vanilla Minecraft",
+        "version": "1.17"
     },
     "messages": {
         "activities": {

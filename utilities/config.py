@@ -1,11 +1,13 @@
 import json
 import dns.resolver
+import aiohttp
+from async_files import FileIO
 from urllib.parse import urlparse
 from utilities.traceback_own import traceback_maker
 
 
-class Config:
-    def __init__(self, path: str):
+class ConfigWrapper:
+    def __init__(self, path: str = "config.json"):
         self.path = path
 
     def read_config(self):
@@ -13,6 +15,23 @@ class Config:
             with open(self.path, "r") as _config_file:
                 _data = json.load(_config_file)
                 return _data
+        except Exception as _error:
+            print(traceback_maker(_error, False))
+
+    async def async_read_config(self):
+        try:
+            async with FileIO(self.path) as _file:
+                return json.loads(await _file.read())
+        except Exception as _error:
+            print(traceback_maker(_error, False))
+
+    def write_config(self, main_key: str, secondary_key: str, value):
+        try:
+            _data = self.read_config()
+            _data[main_key][secondary_key] = value
+            with open(self.path, "w") as _config_file:
+                json.dump(_data, _config_file, indent=4)
+
         except Exception as _error:
             print(traceback_maker(_error, False))
 
@@ -37,20 +56,21 @@ class Config:
 
         return (_host, _port)
 
+    async def get_image(self, url: str):
+        """
+        Retrieves an image and returns it
+        Code humbly provided by @Jalancar#6124
+        At Discord: discord-integrations
+        """
+        async with aiohttp.ClientSession() as image_session:
+            async with image_session.get(url) as image_data:
+                if image_data.status == 200:
+                    return await image_data.read()
+                else:
+                    return None
+
 
 try:
-    _config = Config("config.json")
-    _data = _config.read_config()
-
-    token = _data["bot"]["token"]
-    guild_ids = _data["bot"]["guild_ids"]
-    bot_info = _data["bot"]
-    pack_info = _data["pack"]
-    server = _data["server"]
-    hostname = _config.srv_lookup(server["ip"])
-    panel = _data["panel"]
-    emojis = _data["messages"]["emojis"]
-    messages = _data["messages"]["activities"]
-
+    config = ConfigWrapper()
 except Exception as _error:
     print(traceback_maker(_error, False))
